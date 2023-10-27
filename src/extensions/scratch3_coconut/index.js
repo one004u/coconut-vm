@@ -58,7 +58,7 @@ const blockTexts = {
 const STATE = { NOWEBUSB:0, DISCONNECTED:1, CONNECTED:2 };
 
 const COCONUT_BUTTON_ID = "coconut_connect_btn";
-const PARENT_CLASS = "controls_controls-container_2xinB"
+const PARENT_CLASS = "controls_controls-container_3ZRI_"
 const EXTENSION_ID = 'coconut';
 
 /**
@@ -73,7 +73,37 @@ class Scratch3Coconut{
      */
     setButton (state, msg=null) {
         button = document.getElementById(COCONUT_BUTTON_ID);
+
         // TODO: ftduino 참고
+        if (button != undefined) {
+            if (state == STATE.NOWEBUSB) {
+                this.error_msg = msg;
+                icon = coconutNoWebUSBIcon;
+                title = "No WebUSB support available";
+                // handler = this.onNoWebUSBClicked.bind(this);
+            }
+
+            if (state == STATE.DISCONNECTED) {
+                this.error_msg = ""
+                icon = coconutDisconnectedIcon;
+                title = "COCONUT not connected. Click icon to connect.";
+                // handler = this.onConnectClicked.bind(this);
+            }
+
+            if(state == STATE.CONNECTED) {
+                this.error_msg = ""
+                icon = coconutConnectedIcon;
+                // title = "COCONUT " + msg + " connected. Click icon to disconnect.";
+                title = `COCONUT ${msg} connected. Click icon to disconnect.`;
+                // handler = this.onDisconnectClicked.bind(this);
+            }
+
+            // set button parameters
+            this.button_state = state;
+            button.src = icon;
+            button.title = title;
+            // button.onclick = handler;
+        }
     }
 
     /**
@@ -90,7 +120,7 @@ class Scratch3Coconut{
                 hdrDiv = x[0];
 
                 img = document.createElement("IMG");
-                img.classList.add("green-flag_green-flag_1kiAo");
+                img.classList.add("green-flag_green-flag_mk1Vo");
                 img.setAttribute("draggable", false);
                 img.setAttribute("id", COCONUT_BUTTON_ID);
                 img.setAttribute("src", coconutNoWebUSBIcon);
